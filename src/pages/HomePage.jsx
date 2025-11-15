@@ -1,30 +1,41 @@
 // src/pages/HomePage.jsx
-import { ResepMakanan } from '../data/makanan';
-import { ResepMinuman } from '../data/minuman';
+import { useState } from 'react';
+import { WorkshopItems } from '../data/workshop';
+import { HandTools } from '../data/tools';
 import HeroSection from '../components/home/HeroSection';
-import FeaturedMakananSection from
-    '../components/home/FeaturedMakananSection';
-import FeaturedMinumanSection from
-    '../components/home/FeaturedMinumanSection';
-export default function HomePage() {
-    const featuredMakanan =
-        Object.values(ResepMakanan.resep).slice(0, 3);
-    const featuredMinuman =
-        Object.values(ResepMinuman.resep).slice(0, 2);
+import FeaturedWorkshopSection from '../components/home/FeaturedWorkshopSection';
+import FeaturedToolsSection from '../components/home/FeaturedToolsSection';
+import ProductDetailModal from '../components/ProductDetailModal';
+
+export default function HomePage({ onNavigate }) {
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const featuredWorkshop = Object.values(WorkshopItems.items).slice(0, 3);
+    const featuredTools = Object.values(HandTools.items).slice(0, 2);
+
     return (
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+            <HeroSection onNavigate={onNavigate} />
 
-        <div className="min-h-screen bg-gradient-to-br from-
-blue-50 via-white to-indigo-50 pb-20 md:pb-8">
-
-            <HeroSection />
-            {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 md:px-8
-space-y-12 md:space-y-16">
-                <FeaturedMakananSection
-                    featuredMakanan={featuredMakanan} />
-                <FeaturedMinumanSection
-                    featuredMinuman={featuredMinuman} />
+            <main className="max-w-7xl mx-auto px-4 md:px-8 space-y-16 pb-20 md:pb-8">
+                <FeaturedWorkshopSection
+                    featuredItems={featuredWorkshop}
+                    onNavigate={onNavigate}
+                    onViewDetail={setSelectedProduct}
+                />
+                <FeaturedToolsSection
+                    featuredTools={featuredTools}
+                    onNavigate={onNavigate}
+                    onViewDetail={setSelectedProduct}
+                />
             </main>
+
+            {/* Product Detail Modal */}
+            {selectedProduct && (
+                <ProductDetailModal
+                    product={selectedProduct}
+                    onClose={() => setSelectedProduct(null)}
+                />
+            )}
         </div>
     );
 }

@@ -1,37 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import appLogo from '/favicon.svg'
-import PWABadge from './PWABadge.jsx'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DesktopNavbar from './components/navbar/DesktopNavbar';
+import MobileNavbar from './components/navbar/MobileNavbar';
+import HomePage from './pages/HomePage';
+import WorkshopPage from './pages/PowerToolsPage';
+import ToolsPage from './pages/HandToolsPage';
+import ProfilePage from './pages/ProfilePage';
+import SplashScreen from './pages/Splashscreen';
+import PWABadge from './PWABadge';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={appLogo} className="logo" alt="resep-nusantara-modul4-kel42 logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="App">
+        <DesktopNavbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/workshop" element={<WorkshopPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+        <MobileNavbar />
+        <PWABadge />
       </div>
-      <h1>resep-nusantara-modul4-kel42</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <PWABadge />
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -1,16 +1,20 @@
-// src/components/MobileNavbar.jsx
-import { Home, ChefHat, Coffee, User } from 'lucide-react';
+// src/components/navbar/MobileNavbar.jsx
+import { Home, Wrench, Hammer, User, ShoppingCart } from 'lucide-react';
+import { useCart } from "../../context/CartContext";
 
 export default function MobileNavbar({ currentPage, onNavigate }) {
+    const { openCart, getCartCount } = useCart();
+    const cartCount = getCartCount();
+
     const navItems = [
-        { id: 'home', label: 'Beranda', icon: Home },
-        { id: 'makanan', label: 'Makanan', icon: ChefHat },
-        { id: 'minuman', label: 'Minuman', icon: Coffee },
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'workshop', label: 'Power', icon: Wrench },
+        { id: 'tools', label: 'Hand', icon: Hammer },
         { id: 'profile', label: 'Profile', icon: User }
     ];
 
     return (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-1 z-50">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-2 py-1 z-50 shadow-lg">
             <div className="flex items-center justify-around max-w-sm mx-auto">
                 {navItems.map((item) => {
                     const IconComponent = item.icon;
@@ -20,7 +24,7 @@ export default function MobileNavbar({ currentPage, onNavigate }) {
                         <button
                             key={item.id}
                             onClick={() => onNavigate(item.id)}
-                            className={`flex flex-col items-center py-2 px-3 transition-colors duration-200 ${isActive ? 'text-blue-600' : 'text-gray-400'
+                            className={`flex flex-col items-center py-2 px-3 transition-colors duration-200 ${isActive ? 'text-orange-600' : 'text-gray-400'
                                 }`}
                         >
                             <IconComponent
@@ -34,6 +38,20 @@ export default function MobileNavbar({ currentPage, onNavigate }) {
                         </button>
                     );
                 })}
+
+                {/* Cart Button */}
+                <button
+                    onClick={openCart}
+                    className="relative flex flex-col items-center py-2 px-3 text-orange-600"
+                >
+                    <ShoppingCart size={20} className="mb-1" strokeWidth={2} />
+                    <span className="text-xs font-medium">Cart</span>
+                    {cartCount > 0 && (
+                        <span className="absolute -top-1 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                            {cartCount}
+                        </span>
+                    )}
+                </button>
             </div>
         </nav>
     );

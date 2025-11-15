@@ -1,0 +1,38 @@
+{
+    "name": "Workshop Tools - Peralatan Bengkel Profesional",
+    "short_name": "Workshop",
+    "description": "Katalog lengkap peralatan bengkel, power tools, dan hand tools profesional untuk kebutuhan pekerjaan Anda",
+    "theme_color": "#f97316",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "orientation": "portrait-primary",
+    "categories": [
+        "business",
+        "tools",
+        "shopping"
+    ],
+    "lang": "id",
+    "dir": "ltr",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/pwa-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/pwa-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

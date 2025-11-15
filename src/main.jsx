@@ -1,13 +1,15 @@
 // src/main.jsx
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { CartProvider } from './context/CartContext'
 import SplashScreen from './pages/Splashscreen';
 import HomePage from './pages/HomePage';
-import MakananPage from './pages/MakananPage';
-import MinumanPage from './pages/MinumanPage';
+import PowerToolsPage from './pages/PowerToolsPage';
+import HandToolsPage from './pages/HandToolsPage';
 import ProfilePage from './pages/ProfilePage';
 import DesktopNavbar from './components/navbar/DesktopNavbar';
 import MobileNavbar from './components/navbar/MobileNavbar';
+import CartSidebar from './components/CartSidebar';
 import './index.css'
 import PWABadge from './PWABadge';
 
@@ -21,20 +23,21 @@ function AppRoot() {
 
   const handleNavigation = (page) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
-      case 'makanan':
-        return <MakananPage />;
-      case 'minuman':
-        return <MinumanPage />;
+        return <HomePage onNavigate={handleNavigation} />;
+      case 'workshop':
+        return <PowerToolsPage />;
+      case 'tools':
+        return <HandToolsPage />;
       case 'profile':
         return <ProfilePage />;
       default:
-        return <HomePage />;
+        return <HomePage onNavigate={handleNavigation} />;
     }
   };
 
@@ -43,20 +46,22 @@ function AppRoot() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Desktop Navbar */}
-      <DesktopNavbar currentPage={currentPage} onNavigate={handleNavigation} />
+    <CartProvider>
+      <div className="min-h-screen bg-gray-50">
+        <DesktopNavbar currentPage={currentPage} onNavigate={handleNavigation} />
 
-      {/* Main Content */}
-      <main className="min-h-screen">
-        {renderCurrentPage()}
-      </main>
+        <main className="min-h-screen">
+          {renderCurrentPage()}
+        </main>
 
-      {/* Mobile Navbar */}
-      <MobileNavbar currentPage={currentPage} onNavigate={handleNavigation} />
+        <MobileNavbar currentPage={currentPage} onNavigate={handleNavigation} />
 
-      <PWABadge />
-    </div>
+        {/* Cart Sidebar */}
+        <CartSidebar />
+
+        <PWABadge />
+      </div>
+    </CartProvider>
   );
 }
 
